@@ -48,4 +48,10 @@ public class ProductService {
 
         product.disassociateCategory(category);
     }
+
+    @Transactional
+    public void deleteById(UUID id) {
+        var product = findById(id);
+        repository.delete(product);
+    }
 }

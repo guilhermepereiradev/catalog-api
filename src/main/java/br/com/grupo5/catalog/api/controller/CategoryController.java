@@ -57,4 +57,10 @@ public class CategoryController {
 
         return ResponseEntity.ok(CategoryResponse.toDto(category));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

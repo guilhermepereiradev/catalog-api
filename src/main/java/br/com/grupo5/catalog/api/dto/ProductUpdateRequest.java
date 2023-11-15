@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 
 @Data
-public class ProductSaveRequest {
+public class ProductUpdateRequest {
 
     @NotBlank
     private String name;
@@ -25,7 +25,10 @@ public class ProductSaveRequest {
     @NotNull
     private BigDecimal price;
 
-    public Product toModel() {
-        return new Product(name, description, available, price);
+    public void copyToModel(Product product) {
+        product.setName(name);
+        product.setDescription(description);
+        product.setAvailable(available);
+        product.setPrice(price);
     }
 }

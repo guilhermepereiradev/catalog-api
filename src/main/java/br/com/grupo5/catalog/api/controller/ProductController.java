@@ -2,6 +2,7 @@ package br.com.grupo5.catalog.api.controller;
 
 import br.com.grupo5.catalog.api.dto.ProductResponse;
 import br.com.grupo5.catalog.api.dto.ProductSaveRequest;
+import br.com.grupo5.catalog.api.dto.ProductUpdateRequest;
 import br.com.grupo5.catalog.domain.model.Product;
 import br.com.grupo5.catalog.domain.service.ProductService;
 import jakarta.validation.Valid;
@@ -24,14 +25,12 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponse>> findAll() {
         List<ProductResponse> productResponseList = productService.findAll().stream().map(ProductResponse::toDto).toList();
-
         return ResponseEntity.ok(productResponseList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findById(@PathVariable UUID id) {
         var product = productService.findById(id);
-
         return ResponseEntity.ok(ProductResponse.toDto(product));
     }
 
@@ -47,5 +46,21 @@ public class ProductController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> update(@PathVariable UUID id, @RequestBody @Valid ProductUpdateRequest request) {
+        var product = productService.findById(id);
+        request.copyToModel(product);
+
+        product = productService.save(product);
+
+        return ResponseEntity.ok(ProductResponse.toDto(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        productService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
