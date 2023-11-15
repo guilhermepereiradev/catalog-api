@@ -1,11 +1,13 @@
 package br.com.grupo5.catalog.api.dto;
 
 import br.com.grupo5.catalog.domain.model.Category;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class CategorySaveRequest {
 
+    @NotBlank
     private String name;
 
     public Category toModel() {

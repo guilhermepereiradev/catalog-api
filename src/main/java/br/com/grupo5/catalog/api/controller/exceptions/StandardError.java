@@ -1,11 +1,16 @@
 package br.com.grupo5.catalog.api.controller.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.Instant;
+import java.util.List;
 
-@Data
+@Getter
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StandardError {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
@@ -14,12 +19,12 @@ public class StandardError {
     private String error;
     private String message;
     private String path;
+    private List<Object> objects;
 
-    public StandardError(Instant timestamp, int status, String error, String message, String path) {
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.message = message;
-        this.path = path;
+    @Getter
+    @Builder
+    public static class Object{
+        private String name;
+        private String userMessage;
     }
 }

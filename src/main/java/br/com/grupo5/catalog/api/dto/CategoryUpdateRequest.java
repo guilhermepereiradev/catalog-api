@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class CategoryUpdateRequest {
 
+    @NotBlank
     private String name;
 
     public void copyToModel(Category category) {
