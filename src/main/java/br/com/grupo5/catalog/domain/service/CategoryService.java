@@ -41,4 +41,8 @@ public class CategoryService {
             throw new BusinessRuleException("Cannot delete category because it is in use");
         }
     }
+
+    public List<Category> findByCategoryNameLike(String name){
+        return repository.findByNameLike(name);
+    }
 }

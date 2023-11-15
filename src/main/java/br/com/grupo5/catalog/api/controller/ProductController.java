@@ -3,7 +3,8 @@ package br.com.grupo5.catalog.api.controller;
 import br.com.grupo5.catalog.api.dto.ProductResponse;
 import br.com.grupo5.catalog.api.dto.ProductSaveRequest;
 import br.com.grupo5.catalog.api.dto.ProductUpdateRequest;
-import br.com.grupo5.catalog.domain.model.Product;
+import br.com.grupo5.catalog.domain.model.filter.ProductFilter;
+import br.com.grupo5.catalog.domain.repository.spec.ProductSpecs;
 import br.com.grupo5.catalog.domain.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,12 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAll() {
-        List<ProductResponse> productResponseList = productService.findAll().stream().map(ProductResponse::toDto).toList();
+    public ResponseEntity<List<ProductResponse>> findAll(ProductFilter productFilter) {
+        var productSpecification = ProductSpecs.filterProduct(productFilter);
+
+        var productResponseList = productService.findAll(productSpecification, productFilter.getCategories())
+                .stream().map(ProductResponse::toDto).toList();
+
         return ResponseEntity.ok(productResponseList);
     }
 

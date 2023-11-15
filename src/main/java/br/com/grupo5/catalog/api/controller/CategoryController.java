@@ -3,7 +3,6 @@ package br.com.grupo5.catalog.api.controller;
 import br.com.grupo5.catalog.api.dto.CategoryResponse;
 import br.com.grupo5.catalog.api.dto.CategorySaveRequest;
 import br.com.grupo5.catalog.api.dto.CategoryUpdateRequest;
-import br.com.grupo5.catalog.domain.model.Category;
 import br.com.grupo5.catalog.domain.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
