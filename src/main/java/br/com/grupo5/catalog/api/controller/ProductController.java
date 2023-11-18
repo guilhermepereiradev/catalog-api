@@ -1,6 +1,7 @@
 package br.com.grupo5.catalog.api.controller;
 
-import br.com.grupo5.catalog.api.dto.ProductResponse;
+import br.com.grupo5.catalog.api.dto.ProductModel;
+import br.com.grupo5.catalog.api.dto.ProductResumeModel;
 import br.com.grupo5.catalog.api.dto.ProductSaveRequest;
 import br.com.grupo5.catalog.api.dto.ProductUpdateRequest;
 import br.com.grupo5.catalog.domain.model.filter.ProductFilter;
@@ -24,19 +25,19 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAll(ProductFilter productFilter) {
+    public ResponseEntity<List<ProductResumeModel>> findAll(ProductFilter productFilter) {
         var productSpecification = ProductSpecs.filterProduct(productFilter);
 
         var productResponseList = productService.findAll(productSpecification, productFilter.getCategories())
-                .stream().map(ProductResponse::toDto).toList();
+                .stream().map(ProductResumeModel::toDto).toList();
 
         return ResponseEntity.ok(productResponseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<ProductModel> findById(@PathVariable UUID id) {
         var product = productService.findById(id);
-        return ResponseEntity.ok(ProductResponse.toDto(product));
+        return ResponseEntity.ok(ProductModel.toDto(product));
     }
 
     @PostMapping
@@ -54,13 +55,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(@PathVariable UUID id, @RequestBody @Valid ProductUpdateRequest request) {
+    public ResponseEntity<ProductResumeModel> update(@PathVariable UUID id, @RequestBody @Valid ProductUpdateRequest request) {
         var product = productService.findById(id);
         request.copyToModel(product);
 
         product = productService.save(product);
 
-        return ResponseEntity.ok(ProductResponse.toDto(product));
+        return ResponseEntity.ok(ProductResumeModel.toDto(product));
     }
 
     @DeleteMapping("/{id}")

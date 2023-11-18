@@ -1,6 +1,5 @@
 package br.com.grupo5.catalog.api.dto;
 
-import br.com.grupo5.catalog.domain.model.Category;
 import br.com.grupo5.catalog.domain.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,25 +7,31 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
-public class ProductResponse {
+public class ProductModel {
 
     private UUID id;
     private String name;
     private String description;
     private Boolean available;
     private BigDecimal price;
-    private Set<Category> categories;
+    private Set<CategoryModel> categories;
+    private Set<PictureModel> pictures;
 
-    public static ProductResponse toDto(Product product) {
-        return new ProductResponse(product.getId(),
+    public static ProductModel toDto(Product product) {
+        var categoriesModel = product.getCategories().stream().map(CategoryModel::toDto).collect(Collectors.toSet());
+        var picturesModel = product.getPictures().stream().map(PictureModel::toDto).collect(Collectors.toSet());
+
+        return new ProductModel(product.getId(),
                 product.getName(),
                 product.getDescription(),
                 product.getAvailable(),
                 product.getPrice(),
-                product.getCategories());
+                categoriesModel,
+                picturesModel);
     }
 
 }

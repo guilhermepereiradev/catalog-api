@@ -25,7 +25,7 @@ public class Product {
     private Boolean available;
     private BigDecimal price;
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
     private Set<Picture> pictures = new HashSet<>();
 
     @ManyToMany

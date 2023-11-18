@@ -1,17 +1,18 @@
 package br.com.grupo5.catalog.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Picture {
 
     @Id
@@ -22,5 +23,8 @@ public class Picture {
     private String description;
     private String url;
     private String contentType;
-    private Long contentLength;
+    private Long size;
+
+    @ManyToOne
+    private Product product;
 }

@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class CategoryResponse {
+public class CategoryModel {
     private UUID id;
     private String nome;
 
-    public static CategoryResponse toDto(Category category) {
-        return new CategoryResponse(category.getId(), category.getName());
+    public static CategoryModel toDto(Category category) {
+        return new CategoryModel(category.getId(), category.getName());
     }
 }

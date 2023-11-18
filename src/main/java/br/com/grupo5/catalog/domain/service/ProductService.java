@@ -20,11 +20,12 @@ public class ProductService {
 
     private final CategoryService categoryService;
 
+    private final PictureService pictureService;
+
     public List<Product> findAll(Specification<Product> productSpec, List<String> categoriesNames) {
         var products = repository.findAll(productSpec);
 
         if (!categoriesNames.isEmpty()) {
-
             List<Category> categoryList = categoriesNames.stream()
                     .map(categoryService::findByCategoryNameLike)
                     .flatMap(List::stream)
@@ -65,6 +66,9 @@ public class ProductService {
     @Transactional
     public void deleteById(UUID id) {
         var product = findById(id);
+
+        product.getPictures().forEach(picture -> pictureService.delete(product.getId(), picture.getId()));
+
         repository.delete(product);
     }
 }

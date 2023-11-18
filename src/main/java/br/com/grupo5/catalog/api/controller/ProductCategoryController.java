@@ -1,6 +1,6 @@
 package br.com.grupo5.catalog.api.controller;
 
-import br.com.grupo5.catalog.api.dto.CategoryResponse;
+import br.com.grupo5.catalog.api.dto.CategoryModel;
 import br.com.grupo5.catalog.domain.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ public class ProductCategoryController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> findCategoriesByProductId(@PathVariable UUID productId) {
+    public ResponseEntity<List<CategoryModel>> findCategoriesByProductId(@PathVariable UUID productId) {
         var product = productService.findById(productId);
-        var categoriesResponseList = product.getCategories().stream().map(CategoryResponse::toDto).toList();
+        var categoriesResponseList = product.getCategories().stream().map(CategoryModel::toDto).toList();
 
         return ResponseEntity.ok(categoriesResponseList);
     }

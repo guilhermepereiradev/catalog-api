@@ -1,6 +1,6 @@
 package br.com.grupo5.catalog.api.controller;
 
-import br.com.grupo5.catalog.api.dto.CategoryResponse;
+import br.com.grupo5.catalog.api.dto.CategoryModel;
 import br.com.grupo5.catalog.api.dto.CategorySaveRequest;
 import br.com.grupo5.catalog.api.dto.CategoryUpdateRequest;
 import br.com.grupo5.catalog.domain.service.CategoryService;
@@ -22,15 +22,15 @@ public class CategoryController {
     private final CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> findAll() {
-        var categoryResponseList = service.findAll().stream().map(CategoryResponse::toDto).toList();
+    public ResponseEntity<List<CategoryModel>> findAll() {
+        var categoryResponseList = service.findAll().stream().map(CategoryModel::toDto).toList();
         return ResponseEntity.ok(categoryResponseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<CategoryModel> findById(@PathVariable UUID id) {
         var category = service.findById(id);
-        return ResponseEntity.ok(CategoryResponse.toDto(category));
+        return ResponseEntity.ok(CategoryModel.toDto(category));
     }
 
     @PostMapping
@@ -48,13 +48,13 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponse> update(@PathVariable UUID id, @RequestBody @Valid CategoryUpdateRequest request) {
+    public ResponseEntity<CategoryModel> update(@PathVariable UUID id, @RequestBody @Valid CategoryUpdateRequest request) {
         var category = service.findById(id);
         request.copyToModel(category);
 
         category = service.save(category);
 
-        return ResponseEntity.ok(CategoryResponse.toDto(category));
+        return ResponseEntity.ok(CategoryModel.toDto(category));
     }
 
     @DeleteMapping("/{id}")
