@@ -1,8 +1,7 @@
 package br.com.grupo5.catalog.api.controller;
 
 import br.com.grupo5.catalog.api.dto.CategoryModel;
-import br.com.grupo5.catalog.api.dto.CategorySaveRequest;
-import br.com.grupo5.catalog.api.dto.CategoryUpdateRequest;
+import br.com.grupo5.catalog.api.dto.CategoryRequest;
 import br.com.grupo5.catalog.domain.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid CategorySaveRequest request) {
+    public ResponseEntity<Void> save(@RequestBody @Valid CategoryRequest request) {
         var category = request.toModel();
         category = service.save(category);
 
@@ -48,7 +47,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryModel> update(@PathVariable UUID id, @RequestBody @Valid CategoryUpdateRequest request) {
+    public ResponseEntity<CategoryModel> update(@PathVariable UUID id, @RequestBody @Valid CategoryRequest request) {
         var category = service.findById(id);
         request.copyToModel(category);
 

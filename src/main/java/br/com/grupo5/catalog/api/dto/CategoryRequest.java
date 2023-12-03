@@ -5,10 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CategoryUpdateRequest {
+public class CategoryRequest {
 
     @NotBlank
     private String name;
+
+    public Category toModel() {
+        return new Category(name);
+    }
 
     public void copyToModel(Category category) {
         category.setName(name);

@@ -2,8 +2,7 @@ package br.com.grupo5.catalog.api.controller;
 
 import br.com.grupo5.catalog.api.dto.ProductModel;
 import br.com.grupo5.catalog.api.dto.ProductResumeModel;
-import br.com.grupo5.catalog.api.dto.ProductSaveRequest;
-import br.com.grupo5.catalog.api.dto.ProductUpdateRequest;
+import br.com.grupo5.catalog.api.dto.ProductRequest;
 import br.com.grupo5.catalog.domain.model.filter.ProductFilter;
 import br.com.grupo5.catalog.domain.repository.spec.ProductSpecs;
 import br.com.grupo5.catalog.domain.service.ProductService;
@@ -41,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid ProductSaveRequest request) {
+    public ResponseEntity<Void> save(@RequestBody @Valid ProductRequest request) {
         var product = request.toModel();
         product = productService.save(product);
 
@@ -55,7 +54,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResumeModel> update(@PathVariable UUID id, @RequestBody @Valid ProductUpdateRequest request) {
+    public ResponseEntity<ProductResumeModel> update(@PathVariable UUID id, @RequestBody @Valid ProductRequest request) {
         var product = productService.findById(id);
         request.copyToModel(product);
 
