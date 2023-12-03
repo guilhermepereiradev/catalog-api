@@ -57,12 +57,12 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
         String error = "Invalid request";
         String message = "One or more fields are invalid. Please fill in the correct information and try again.";
 
-        List<StandardError.Object> problemsObjects = ex.getBindingResult().getAllErrors().stream().map(err -> {
-            return StandardError.Object.builder()
-                    .name(((FieldError) err).getField())
-                    .userMessage(err.getDefaultMessage())
-                    .build();
-        }).toList();
+        List<StandardError.Object> problemsObjects = ex.getBindingResult().getAllErrors().stream().map(err ->
+                    StandardError.Object.builder()
+                        .name(((FieldError) err).getField())
+                        .userMessage(err.getDefaultMessage())
+                        .build())
+                .toList();
 
         StandardError standardError = StandardError.builder()
                 .timestamp(Instant.now())
