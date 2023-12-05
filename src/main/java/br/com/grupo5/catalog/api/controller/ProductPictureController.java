@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/products/{productId}/pictures")
+@RequestMapping("/api/v1/products/{productId}/pictures")
 @RequiredArgsConstructor
 public class ProductPictureController {
 
