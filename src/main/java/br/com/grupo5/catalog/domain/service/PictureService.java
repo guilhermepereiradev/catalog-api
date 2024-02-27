@@ -1,5 +1,6 @@
 package br.com.grupo5.catalog.domain.service;
 
+import br.com.grupo5.catalog.core.ImageStorage;
 import br.com.grupo5.catalog.domain.exception.EntityNotFoundException;
 import br.com.grupo5.catalog.domain.model.Picture;
 import br.com.grupo5.catalog.domain.repository.PictureRepository;
@@ -16,7 +17,7 @@ public class PictureService {
 
     private final PictureRepository repository;
 
-    private final AmazonStorageService storageService;
+    private final ImageStorage storageService;
 
     @Transactional
     public Picture save(Picture picture, InputStream inputStream) {

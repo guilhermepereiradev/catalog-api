@@ -1,5 +1,7 @@
 package br.com.grupo5.catalog.core;
 
+import br.com.grupo5.catalog.domain.service.AmazonStorageService;
+import br.com.grupo5.catalog.domain.service.LocalStorageService;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -23,6 +25,15 @@ public class StorageConfig {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(storageProperties.getS3().getRegion())
                 .build();
+    }
+
+    @Bean
+    public ImageStorage imageStorage() {
+        if (storageProperties.getStorageType().equals(StorageProperties.StorageType.S3)) {
+            return new AmazonStorageService(amazonS3(), storageProperties);
+        }
+
+        return new LocalStorageService(storageProperties);
     }
 
 }

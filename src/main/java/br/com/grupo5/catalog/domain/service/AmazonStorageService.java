@@ -1,5 +1,6 @@
 package br.com.grupo5.catalog.domain.service;
 
+import br.com.grupo5.catalog.core.ImageStorage;
 import br.com.grupo5.catalog.core.StorageProperties;
 import br.com.grupo5.catalog.domain.exception.BusinessRuleException;
 import br.com.grupo5.catalog.domain.model.Picture;
@@ -9,19 +10,19 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.UUID;
 
-@Service
+
 @RequiredArgsConstructor
-public class AmazonStorageService {
+public class AmazonStorageService implements ImageStorage {
 
     private final AmazonS3 amazonS3;
 
     private final StorageProperties storageProperties;
 
+    @Override
     public void storagePicture(Picture picture, InputStream inputStream) {
         try {
             var objectMetaData = new ObjectMetadata();
@@ -41,10 +42,12 @@ public class AmazonStorageService {
         }
     }
 
+    @Override
     public String recoverPictureUrl(String fileName) {
         return amazonS3.getUrl(storageProperties.getS3().getBucket(), getFilePath(fileName)).toString();
     }
 
+    @Override
     public void removePictureFromStorage(String fileName) {
         try {
             var filePath = getFilePath(fileName);
@@ -56,10 +59,12 @@ public class AmazonStorageService {
         }
     }
 
+    @Override
     public String createFileName(UUID id, String fileName) {
         return String.format("%s_%s", id, fileName);
     }
 
+    @Override
     public String getFilePath(String fileName) {
         return String.format("%s/%s", storageProperties.getS3().getPicturesPath(), fileName);
     }
