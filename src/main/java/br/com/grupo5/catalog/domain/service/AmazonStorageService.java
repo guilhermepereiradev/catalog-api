@@ -1,6 +1,5 @@
 package br.com.grupo5.catalog.domain.service;
 
-import br.com.grupo5.catalog.core.ImageStorage;
 import br.com.grupo5.catalog.core.StorageProperties;
 import br.com.grupo5.catalog.domain.exception.BusinessRuleException;
 import br.com.grupo5.catalog.domain.model.Picture;
@@ -10,11 +9,11 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
-import java.util.UUID;
 
-
+@Slf4j
 @RequiredArgsConstructor
 public class AmazonStorageService implements ImageStorage {
 
@@ -38,6 +37,7 @@ public class AmazonStorageService implements ImageStorage {
 
             amazonS3.putObject(putObjectRequest);
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new BusinessRuleException("Unable to upload file to Amazon Storage");
         }
     }
@@ -55,13 +55,9 @@ public class AmazonStorageService implements ImageStorage {
 
             amazonS3.deleteObject(deleteObjectRequest);
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new BusinessRuleException("Unable to remove file to Amazon Storage");
         }
-    }
-
-    @Override
-    public String createFileName(UUID id, String fileName) {
-        return String.format("%s_%s", id, fileName);
     }
 
     @Override

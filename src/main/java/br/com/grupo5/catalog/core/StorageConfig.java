@@ -1,6 +1,7 @@
 package br.com.grupo5.catalog.core;
 
 import br.com.grupo5.catalog.domain.service.AmazonStorageService;
+import br.com.grupo5.catalog.domain.service.ImageStorage;
 import br.com.grupo5.catalog.domain.service.LocalStorageService;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

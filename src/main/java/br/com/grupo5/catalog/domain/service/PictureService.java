@@ -1,6 +1,5 @@
 package br.com.grupo5.catalog.domain.service;
 
-import br.com.grupo5.catalog.core.ImageStorage;
 import br.com.grupo5.catalog.domain.exception.EntityNotFoundException;
 import br.com.grupo5.catalog.domain.model.Picture;
 import br.com.grupo5.catalog.domain.repository.PictureRepository;

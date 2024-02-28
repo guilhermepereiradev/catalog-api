@@ -1,8 +1,8 @@
 package br.com.grupo5.catalog.api.controller;
 
 import br.com.grupo5.catalog.api.dto.ProductModel;
-import br.com.grupo5.catalog.api.dto.ProductResumeModel;
 import br.com.grupo5.catalog.api.dto.ProductRequest;
+import br.com.grupo5.catalog.api.dto.ProductResumeModel;
 import br.com.grupo5.catalog.domain.model.filter.ProductFilter;
 import br.com.grupo5.catalog.domain.repository.spec.ProductSpecs;
 import br.com.grupo5.catalog.domain.service.ProductService;

@@ -1,4 +1,4 @@
-package br.com.grupo5.catalog.core;
+package br.com.grupo5.catalog.domain.service;
 
 import br.com.grupo5.catalog.domain.model.Picture;
 
@@ -12,7 +12,9 @@ public interface ImageStorage {
 
     void removePictureFromStorage(String fileName);
 
-    String createFileName(UUID id, String fileName);
+    default String createFileName(UUID id, String fileName) {
+        return String.format("%s_%s", id, fileName);
+    }
 
     String getFilePath(String fileName);
 }
