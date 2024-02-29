@@ -5,6 +5,7 @@ import br.com.grupo5.catalog.api.dto.CategoryRequest;
 import br.com.grupo5.catalog.domain.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,14 +23,14 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryModel>> findAll() {
-        var categoryResponseList = service.findAll().stream().map(CategoryModel::toDto).toList();
+        var categoryResponseList = service.findAll().stream().map(CategoryModel::of).toList();
         return ResponseEntity.ok(categoryResponseList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryModel> findById(@PathVariable UUID id) {
         var category = service.findById(id);
-        return ResponseEntity.ok(CategoryModel.toDto(category));
+        return ResponseEntity.ok(CategoryModel.of(category));
     }
 
     @PostMapping
@@ -49,11 +50,10 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoryModel> update(@PathVariable UUID id, @RequestBody @Valid CategoryRequest request) {
         var category = service.findById(id);
-        request.copyToModel(category);
+        BeanUtils.copyProperties(request, category);
 
         category = service.save(category);
-
-        return ResponseEntity.ok(CategoryModel.toDto(category));
+        return ResponseEntity.ok(CategoryModel.of(category));
     }
 
     @DeleteMapping("/{id}")

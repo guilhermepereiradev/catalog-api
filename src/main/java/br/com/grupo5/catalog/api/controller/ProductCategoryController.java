@@ -19,7 +19,7 @@ public class ProductCategoryController {
     @GetMapping
     public ResponseEntity<List<CategoryModel>> findCategoriesByProductId(@PathVariable UUID productId) {
         var product = productService.findById(productId);
-        var categoriesResponseList = product.getCategories().stream().map(CategoryModel::toDto).toList();
+        var categoriesResponseList = product.getCategories().stream().map(CategoryModel::of).toList();
 
         return ResponseEntity.ok(categoriesResponseList);
     }

@@ -20,7 +20,7 @@ public class ProductResumeModel {
     private BigDecimal price;
     private Set<Category> categories;
 
-    public static ProductResumeModel toDto(Product product) {
+    public static ProductResumeModel of(Product product) {
         return new ProductResumeModel(product.getId(),
                 product.getName(),
                 product.getDescription(),

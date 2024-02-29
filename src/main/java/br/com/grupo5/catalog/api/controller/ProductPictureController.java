@@ -36,15 +36,13 @@ public class ProductPictureController {
         picture.setSize(file.getSize());
         picture.setProduct(product);
 
-        picture = pictureService.save(picture, file.getInputStream());
-
-        return ResponseEntity.ok(PictureModel.toDto(picture));
+        return ResponseEntity.ok(PictureModel.of(picture));
     }
 
     @GetMapping
     public ResponseEntity<List<PictureModel>> findAllByProductId(@PathVariable UUID productId) {
         var product = productService.findById(productId);
-        var picturesModel = product.getPictures().stream().map(PictureModel::toDto).toList();
+        var picturesModel = product.getPictures().stream().map(PictureModel::of).toList();
 
         return ResponseEntity.ok(picturesModel);
     }
@@ -52,7 +50,7 @@ public class ProductPictureController {
     @GetMapping("/{pictureId}")
     public ResponseEntity<PictureModel> findById(@PathVariable UUID productId, @PathVariable UUID pictureId) {
         var picture = pictureService.findById(productId, pictureId);
-        return ResponseEntity.ok(PictureModel.toDto(picture));
+        return ResponseEntity.ok(PictureModel.of(picture));
     }
 
     @DeleteMapping("/{pictureId}")

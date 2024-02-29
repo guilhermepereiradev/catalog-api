@@ -29,10 +29,4 @@ public class ProductRequest {
         return new Product(name, description, available, price);
     }
 
-    public void copyToModel(Product product) {
-        product.setName(name);
-        product.setDescription(description);
-        product.setAvailable(available);
-        product.setPrice(price);
-    }
 }

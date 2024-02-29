@@ -13,8 +13,4 @@ public class CategoryRequest {
     public Category toModel() {
         return new Category(name);
     }
-
-    public void copyToModel(Category category) {
-        category.setName(name);
-    }
 }

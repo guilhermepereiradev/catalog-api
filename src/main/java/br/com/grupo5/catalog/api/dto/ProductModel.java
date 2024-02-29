@@ -21,9 +21,16 @@ public class ProductModel {
     private Set<CategoryModel> categories;
     private Set<PictureModel> pictures;
 
-    public static ProductModel toDto(Product product) {
-        var categoriesModel = product.getCategories().stream().map(CategoryModel::toDto).collect(Collectors.toSet());
-        var picturesModel = product.getPictures().stream().map(PictureModel::toDto).collect(Collectors.toSet());
+    public static ProductModel of(Product product) {
+        var categoriesModel = product.getCategories()
+                .stream()
+                .map(CategoryModel::of)
+                .collect(Collectors.toSet());
+
+        var picturesModel = product.getPictures()
+                .stream()
+                .map(PictureModel::of)
+                .collect(Collectors.toSet());
 
         return new ProductModel(product.getId(),
                 product.getName(),

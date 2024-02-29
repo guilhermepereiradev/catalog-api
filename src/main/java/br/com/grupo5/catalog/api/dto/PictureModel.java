@@ -18,7 +18,7 @@ public class PictureModel {
     private Long contentLength;
 
 
-    public static PictureModel toDto(Picture picture){
+    public static PictureModel of(Picture picture){
         return new PictureModel(picture.getId(),
                 picture.getName(),
                 picture.getDescription(),

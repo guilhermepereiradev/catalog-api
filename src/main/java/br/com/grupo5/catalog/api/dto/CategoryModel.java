@@ -12,7 +12,7 @@ public class CategoryModel {
     private UUID id;
     private String nome;
 
-    public static CategoryModel toDto(Category category) {
+    public static CategoryModel of(Category category) {
         return new CategoryModel(category.getId(), category.getName());
     }
 }

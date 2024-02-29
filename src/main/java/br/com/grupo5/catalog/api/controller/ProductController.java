@@ -8,6 +8,7 @@ import br.com.grupo5.catalog.domain.repository.spec.ProductSpecs;
 import br.com.grupo5.catalog.domain.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,7 +29,7 @@ public class ProductController {
         var productSpecification = ProductSpecs.filterProduct(productFilter);
 
         var productResponseList = productService.findAll(productSpecification, productFilter.getCategories())
-                .stream().map(ProductResumeModel::toDto).toList();
+                .stream().map(ProductResumeModel::of).toList();
 
         return ResponseEntity.ok(productResponseList);
     }
@@ -36,7 +37,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductModel> findById(@PathVariable UUID id) {
         var product = productService.findById(id);
-        return ResponseEntity.ok(ProductModel.toDto(product));
+        return ResponseEntity.ok(ProductModel.of(product));
     }
 
     @PostMapping
@@ -56,11 +57,11 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductResumeModel> update(@PathVariable UUID id, @RequestBody @Valid ProductRequest request) {
         var product = productService.findById(id);
-        request.copyToModel(product);
+        BeanUtils.copyProperties(request, product);
 
         product = productService.save(product);
 
-        return ResponseEntity.ok(ProductResumeModel.toDto(product));
+        return ResponseEntity.ok(ProductResumeModel.of(product));
     }
 
     @DeleteMapping("/{id}")
