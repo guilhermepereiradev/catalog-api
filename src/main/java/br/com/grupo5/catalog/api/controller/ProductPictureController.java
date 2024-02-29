@@ -1,7 +1,6 @@
 package br.com.grupo5.catalog.api.controller;
 
 import br.com.grupo5.catalog.api.dto.PictureModel;
-import br.com.grupo5.catalog.domain.model.Picture;
 import br.com.grupo5.catalog.domain.service.PictureService;
 import br.com.grupo5.catalog.domain.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +27,7 @@ public class ProductPictureController {
                                                @RequestParam("file") MultipartFile file,
                                                @RequestParam("description") String description) throws IOException {
         var product = productService.findById(productId);
-
-        var picture = new Picture();
-        picture.setName(file.getOriginalFilename());
-        picture.setDescription(description);
-        picture.setContentType(file.getContentType());
-        picture.setSize(file.getSize());
-        picture.setProduct(product);
+        var picture = pictureService.save(description, file, product);
 
         return ResponseEntity.ok(PictureModel.of(picture));
     }

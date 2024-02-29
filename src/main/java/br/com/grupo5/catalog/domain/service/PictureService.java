@@ -2,12 +2,14 @@ package br.com.grupo5.catalog.domain.service;
 
 import br.com.grupo5.catalog.domain.exception.EntityNotFoundException;
 import br.com.grupo5.catalog.domain.model.Picture;
+import br.com.grupo5.catalog.domain.model.Product;
 import br.com.grupo5.catalog.domain.repository.PictureRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -19,16 +21,23 @@ public class PictureService {
     private final ImageStorage storageService;
 
     @Transactional
-    public Picture save(Picture picture, InputStream inputStream) {
-        picture = repository.save(picture);
+    public Picture save(String description, MultipartFile file, Product product) throws IOException {
+        var uuid = UUID.randomUUID();
+        var fileName = String.format("%s_%s", file.getOriginalFilename(), uuid);
 
-        var fileName = storageService.createFileName(picture.getId(), picture.getName());
-        picture.setName(fileName);
+        var picture = Picture.builder()
+                .id(uuid)
+                .name(fileName)
+                .description(description)
+                .contentType(file.getContentType())
+                .size(file.getSize())
+                .product(product)
+                .build();
 
-        storageService.storagePicture(picture, inputStream);
+        storageService.storagePicture(picture, file.getInputStream());
         picture.setUrl(storageService.recoverPictureUrl(picture.getName()));
 
-        return picture;
+        return repository.save(picture);
     }
 
     public Picture findById(UUID productId, UUID pictureId) {
