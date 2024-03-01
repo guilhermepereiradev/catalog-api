@@ -15,7 +15,19 @@ jobs:
 
     steps:
       - name: Wait for PostgreSQL to be ready
-        run: dockerize -wait tcp://localhost:5432 -timeout 1m
+        run: |
+          count=0
+          max_retries=30
+          until nc -z localhost 5432 || [ $count -eq $max_retries ]; do
+            count=$((count + 1))
+            echo "Waiting for PostgreSQL to be ready... Attempt $count of $max_retries"
+            sleep 5
+          done
+          if [ $count -eq $max_retries ]; then
+            echo "PostgreSQL did not start in time."
+            exit 1
+          fi
+          echo "PostgreSQL is ready!"
 
   build:
     needs: catalog-db
