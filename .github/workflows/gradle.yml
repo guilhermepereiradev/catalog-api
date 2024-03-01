@@ -1,5 +1,3 @@
-name: Catalog-API CI
-
 on: [push, pull_request]
 
 jobs:
@@ -14,6 +12,10 @@ jobs:
           POSTGRES_DB: catalog-db
         ports:
           - 5432:5432
+
+    steps:
+      - name: Wait for PostgreSQL to be ready
+        run: dockerize -wait tcp://localhost:5432 -timeout 1m
 
   build:
     needs: catalog-db
