@@ -6,9 +6,9 @@ grupo5:
       secret-access-key: ${SECRET_ACCESS_KEY:}
       bucket: ${BUCKET:}
       region: ${REGION:}
-      pictures-path: ${PICTURES_PATH:}
+      pictures-path: ${S3_PICTURES_PATH:}
     local:
-      pictures-path: /
+      pictures-path: ${LOCAL_PICTURES_PATH:/}
 
 spring:
   application:
