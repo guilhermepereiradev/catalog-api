@@ -6,10 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16
+        image: postgres:14
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 12345678
+          POSTGRES_DB: catalog-db
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
