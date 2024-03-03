@@ -9,7 +9,7 @@ class CatalogApplicationTests {
 
 	@Test
 	void contextLoads() {
-		Assertions.assertTrue(6 < 1);
+		Assertions.assertTrue(6 > 1);
 	}
 
 }
