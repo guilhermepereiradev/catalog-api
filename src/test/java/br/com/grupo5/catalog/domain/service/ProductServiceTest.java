@@ -68,6 +68,7 @@ class ProductServiceTest {
                 () -> productService.findById(productId));
 
         assertEquals(String.format("Product not found for id: %s", productId), e.getMessage());
+        verifyNoMoreInteractions(productRepository);
     }
 
     @Test
@@ -100,5 +101,7 @@ class ProductServiceTest {
         assertFalse(product.getCategories().contains(category));
         verify(productRepository).findById(productId);
         verify(categoryService).findById(categoryId);
+        verifyNoMoreInteractions(productRepository);
+        verifyNoMoreInteractions(categoryService);
     }
 }
