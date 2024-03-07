@@ -15,7 +15,8 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +56,7 @@ class ProductServiceTest {
 
         Product productReturned = productService.findById(productId);
 
-        assertEquals(productReturned, product);
+        assertThat(productReturned).isEqualTo(product);
         verify(productRepository).findById(productId);
         verifyNoMoreInteractions(productRepository);
     }
@@ -67,7 +68,7 @@ class ProductServiceTest {
         Throwable e = assertThrows(EntityNotFoundException.class,
                 () -> productService.findById(productId));
 
-        assertEquals(String.format("Product not found for id: %s", productId), e.getMessage());
+        assertThat(String.format("Product not found for id: %s", productId)).isEqualTo(e.getMessage());
         verifyNoMoreInteractions(productRepository);
     }
 
@@ -80,7 +81,7 @@ class ProductServiceTest {
 
         productService.associateProductToCategory(productId, categoryId);
 
-        assertTrue(product.getCategories().contains(category));
+        assertThat(product.getCategories()).containsExactly(category);
         verify(productRepository).findById(productId);
         verify(categoryService).findById(categoryId);
         verifyNoMoreInteractions(productRepository);
@@ -98,7 +99,7 @@ class ProductServiceTest {
 
         productService.disassociateProductToCategory(productId, categoryId);
 
-        assertFalse(product.getCategories().contains(category));
+        assertThat(product.getCategories()).doesNotContain(category);
         verify(productRepository).findById(productId);
         verify(categoryService).findById(categoryId);
         verifyNoMoreInteractions(productRepository);
