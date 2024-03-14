@@ -1,7 +1,6 @@
 package br.com.grupo5.catalog.domain.service;
 
 import br.com.grupo5.catalog.domain.exception.EntityNotFoundException;
-import br.com.grupo5.catalog.domain.model.Category;
 import br.com.grupo5.catalog.domain.model.Product;
 import br.com.grupo5.catalog.domain.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -22,19 +21,8 @@ public class ProductService {
 
     private final PictureService pictureService;
 
-    public List<Product> findAll(Specification<Product> productSpec, List<String> categoriesNames) {
-        var products = repository.findAll(productSpec);
-
-        if (!categoriesNames.isEmpty()) {
-            List<Category> categoryList = categoriesNames.stream()
-                    .map(categoryService::findByCategoryNameLike)
-                    .flatMap(List::stream)
-                    .toList();
-
-            return products.stream().filter(product -> product.getCategories().containsAll(categoryList)).toList();
-        }
-
-        return products;
+    public List<Product> findAll(Specification<Product> productSpec) {
+        return repository.findAll(productSpec);
     }
 
     @Transactional

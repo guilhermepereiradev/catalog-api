@@ -28,8 +28,10 @@ public class ProductController {
     public ResponseEntity<List<ProductResumeModel>> findAll(ProductFilter productFilter) {
         var productSpecification = ProductSpecs.filterProduct(productFilter);
 
-        var productResponseList = productService.findAll(productSpecification, productFilter.getCategories())
-                .stream().map(ProductResumeModel::of).toList();
+        var productResponseList = productService.findAll(productSpecification)
+                .stream()
+                .map(ProductResumeModel::of)
+                .toList();
 
         return ResponseEntity.ok(productResponseList);
     }
